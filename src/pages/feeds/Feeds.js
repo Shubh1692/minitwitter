@@ -162,7 +162,7 @@ class Feeds extends Component {
 
 
                     </div>
-                    <div className="p-2">
+                    <div className="p-2 w-25">
                         <ListGroup>
                             {
                                 userList.map((user) => {
