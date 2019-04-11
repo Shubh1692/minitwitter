@@ -8,7 +8,8 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
     http = require('http'),
-    session = require('express-session');
+    session = require('express-session'),
+    path = require('path');
 // connect app to database
 mongoose.connect(Config.MONGOURL, {}).then((success) => {
     console.info('success connect mongo db')

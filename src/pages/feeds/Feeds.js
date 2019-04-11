@@ -50,7 +50,7 @@ class Feeds extends Component {
          * logout user if token expire at run time
         */
         socketInstense.on("error", (error) => {
-            if (error.type == "UnauthorizedError" || error.code == "invalid_token") {
+            if (error.type === "UnauthorizedError" || error.code === "invalid_token") {
                 this.logout();
             }
         });
