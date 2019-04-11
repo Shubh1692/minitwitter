@@ -37,7 +37,11 @@ require('./server/route')(app, passport);
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.set('port', (process.env.PORT || Config.NODE_SERVER_PORT));
-app.use('/', express.static('build'))
+app.use('/', express.static('build'));
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/build/index.html'));
+});
 const appHttpServer = http.Server(app).listen(app.get('port'), () => {
     console.log(`server running at ${app.get('port')}`);
 });
