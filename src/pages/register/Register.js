@@ -10,6 +10,14 @@ class Register extends Component {
         super()
     }
 
+    /**
+     * @name register
+     * @description
+     * This method used to register user
+     * @param email user email
+     * @param password user password
+     * @param name user name
+    */
     async register({ email, password, name }) {
         const { cookies } = this.props;
         const registerReq = await fetch(`${API_DOMAIN}user/register/`, {
@@ -30,6 +38,7 @@ class Register extends Component {
             alert('Error in register');
         }
     }
+
     render() {
         return (
             <div className="d-flex align-items-center justify-content-center h-100">

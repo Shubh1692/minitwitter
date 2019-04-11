@@ -8,12 +8,18 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Login from './pages/login/Login';
 import Register from './pages/register/Register';
 import Feeds from './pages/feeds/Feeds';
+
 class App extends Component {
   render() {
     const { cookies } = this.props;
     const token = cookies.get('token');
     return (
       <Router>
+        {
+        /**
+            * React router Switch case for authenticated or not authenticated route
+         */
+        }
         {token ? <Switch>
           <Route exact path='/feeds' render={() => (<Feeds {
             ...{

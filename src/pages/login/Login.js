@@ -11,6 +11,13 @@ class Login extends Component {
         super()
     }
 
+    /**
+     * @name login
+     * @description
+     * This method used to login user
+     * @param email user email
+     * @param password user password
+    */
     async login({ email, password }) {
         const { cookies } = this.props;
         const loginReq = await fetch(`${API_DOMAIN}user/login/`, {

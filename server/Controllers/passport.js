@@ -5,11 +5,18 @@ const User = require('../Models/user'),
     Config = require('../../app.config');
 
 module.exports = (passport) => {
+    /**
+     * Passport serialize user function for store user id in each request
+    */
     passport.serializeUser((user, done) => {
         done(null, {
             id: user.id
         });
     });
+
+    /**
+     * Passport deserialize user function for retrive user id from each request
+    */
     passport.deserializeUser((user, done) => {
         User.findById(user.id).
             exec((err, user) => {
@@ -17,6 +24,9 @@ module.exports = (passport) => {
             });
     });
 
+    /**
+     * Passport local login localstrategy function for login a existing user
+    */
     passport.use('local-login', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
@@ -33,6 +43,9 @@ module.exports = (passport) => {
         done(null, user)
     }));
 
+    /**
+     * Passport local signuo localstrategy function for register a new user
+    */
     passport.use('local-signup', new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
@@ -54,6 +67,10 @@ module.exports = (passport) => {
         return done(null, updatedUser);
     }));
 
+    /**
+     * Passport jwt strategy function for verify bearer toekn in each request
+     * Token will be get in auth header value
+    */
     passport.use(new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
         secretOrKey: Config.EXPRESS_SESSION.SECRET

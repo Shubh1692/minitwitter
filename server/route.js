@@ -4,7 +4,9 @@ const userRouter = require('express').Router(),
     { getUserDetail } = require('../server/Controllers/user');
 
 module.exports = (app, passport) => {
-    //User routers 
+    /**
+     * Get authenticate user detail route /user (GET method)
+    */
     userRouter.route('/').get(passport.authenticate('jwt', { session: false }), (req, res) => {
         getUserDetail({
             _id: req.user._id
@@ -15,6 +17,12 @@ module.exports = (app, passport) => {
                 res.status(400).send(error);
             });
     });
+
+    /**
+     * method for login user route /user/login (POST method)
+     * @param email
+     * @param password
+    */
     userRouter.route('/login').post((req, res) => {
         if (typeof req.body.email !== 'string' || typeof req.body.password !== 'string' || !req.body.email.trim().length || !req.body.password.trim().length)
             return res.status(400).send({
@@ -43,6 +51,9 @@ module.exports = (app, passport) => {
                         error: error
                     });
                 }
+                /**
+                 * Create jwt token for logged in user
+                */
                 const token = jwt.sign({
                     id: user._id
                 }, config.EXPRESS_SESSION.SECRET);
@@ -55,6 +66,12 @@ module.exports = (app, passport) => {
             });
         })(req, res);
     });
+    /**
+     * method for register user route /user/register (POST method)
+     * @param name
+     * @param email
+     * @param password
+    */
     userRouter.route('/register').post((req, res) => {
         if (typeof req.body.email !== 'string' || typeof req.body.password !== 'string' || !req.body.email.trim().length || !req.body.password.trim().length)
             return res.status(400).send({
@@ -77,18 +94,25 @@ module.exports = (app, passport) => {
                         error: error
                     });
                 }
+                /**
+                 * Create jwt token for logged in user
+                */
                 const token = jwt.sign({
                     id: user._id
                 }, config.EXPRESS_SESSION.SECRET);
                 return res.status(200).json({
                     token: token,
-                    msg: 'Successfully login',
+                    msg: 'Successfully register',
                     user: user,
                     success: true
                 });
             });
         })(req, res);
     });
+
+    /**
+     * method for remove session of  user route /user/logout (GET method)
+    */
     userRouter.route('/logout').get(passport.authenticate('jwt', { session: false }), (req, res) => {
         if (req.user) {
             if (typeof req.session === 'function') {
@@ -114,6 +138,4 @@ module.exports = (app, passport) => {
     });
 
     app.use('/user/', userRouter);
-
-
 }
